@@ -1,41 +1,27 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'feature/home/presentation/home_view.dart';
+import 'firebase_options.dart';
 int? isInitScreen;
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  //FirebaseOptions options = await firebaseInit();
-  //await Firebase.initializeApp(options: options);
+  FirebaseOptions firebaseOptions = DefaultFirebaseOptions.currentPlatform;
+
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(options: firebaseOptions);
+    log('Firebase initialized');
+  }
   runApp(const MyApp());
 }
 
-Future<FirebaseOptions> firebaseInit() async{
-  String googleServicesJsonString = await rootBundle.loadString('android\\app\\google-services.json');
-  final googleServicesJson = jsonDecode(googleServicesJsonString);
-  final projectId = googleServicesJson['project_info']["project_id"];
-
-  final messagingSenderId = googleServicesJson['project_info']["project_number"];
-  final storageBucket = googleServicesJson['project_info']["storage_bucket"];
-  final appId = googleServicesJson['client'][0]["client_info"]["mobilesdk_app_id"];
-  final apiKey = googleServicesJson['client'][0]["api_key"][0]["current_key"];
-
-  FirebaseOptions options = FirebaseOptions(
-    apiKey: apiKey,
-    appId: appId,
-    messagingSenderId: messagingSenderId,
-    projectId: projectId,
-    storageBucket: storageBucket,
-  );
-
-  return options;
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
