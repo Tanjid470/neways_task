@@ -24,17 +24,17 @@ class _LoginViewState extends State<LoginView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container(
-            //   height: Get.height / 4,
-            //   width: Get.width,
-            //   alignment: Alignment.center,
-            //   padding: const EdgeInsets.all(10),
-            //   decoration: BoxDecoration(
-            //       image: DecorationImage(
-            //         image: AssetImage(AppImages.nubccLogoRemovebg),
-            //       )
-            //   ),
-            // ),
+            Container(
+              height: Get.height / 4,
+              width: Get.width,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/login.png'),
+                  )
+              ),
+            ),
             inputHeader(context, "Email"),
             Container(
               alignment: Alignment.center,
