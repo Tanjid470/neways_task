@@ -3,9 +3,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:neways_task/config/font_const.dart';
 import 'package:neways_task/const/app_colors.dart';
-import 'package:neways_task/feature/home/presentation/home_view.dart';
-import 'package:neways_task/feature/login/register/presentation/register_view.dart';
-
+import 'package:neways_task/feature/register/presentation/register_view.dart';
 import 'controller/login_controller.dart';
 
 class LoginView extends StatefulWidget {
