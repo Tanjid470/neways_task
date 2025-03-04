@@ -39,14 +39,15 @@ class RegisterController extends GetxController{
       await userCredential.user?.updateDisplayName(name);
       addUserDetails(
         nameController.text.trim(),
-        dobController.text.trim(),
         genderController.text.trim(),
+        dobController.text.trim(),
         emailController.text.trim(),
         passwordController.text.trim(),
       );
       SmartDialog.dismiss();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Successful')));
       preferences.setInt('initScreen', 1);
+      preferences.setString('email', emailController.text);
       Get.offAll(const HomeView());
       return true;
     } on FirebaseAuthException catch (e) {
