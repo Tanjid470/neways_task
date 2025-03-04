@@ -40,7 +40,6 @@ class _HomeViewState extends State<HomeView> {
                         totalLeave(),
                         verticalGap(context, 3),
                         newFeatureSlider(),
-
                       ],
                     ),
                   ),
