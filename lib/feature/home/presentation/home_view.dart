@@ -23,29 +23,25 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Column(
-              children: [
-                SizedBox(height: ResponsiveScale.of(context).hp(5)),
-                userAppBar(),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      children: [
-                        verticalGap(context, 15),
-                        quickAction(),
-                        verticalGap(context, 3),
-                        totalLeave(),
-                        verticalGap(context, 3),
-                        newFeatureSlider(),
-                      ],
-                    ),
+          Column(
+            children: [
+              userAppBar(),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    children: [
+                      verticalGap(context, 15),
+                      quickAction(),
+                      verticalGap(context, 3),
+                      totalLeave(),
+                      verticalGap(context, 3),
+                      newFeatureSlider(),
+                    ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
           inOutTrackCard()
         ],
@@ -114,20 +110,18 @@ class _HomeViewState extends State<HomeView> {
 
   Widget userAppBar(){
     return Container(
-      height: ResponsiveScale.of(context).hp(20),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      height: ResponsiveScale.of(context).hp(24),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
         ),
         color: AppColor.baseColor,
       ),
       child: Column(
         children: [
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: ResponsiveScale.of(context).hp(4)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
