@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +9,8 @@ import 'package:neways_task/const/app_colors.dart';
 import 'package:neways_task/feature/home/presentation/widget/leave_status_card.dart';
 import 'package:neways_task/feature/home/presentation/widget/quick_action_card.dart';
 import 'package:neways_task/feature/home/presentation/widget/widget_background_color.dart';
+import 'package:neways_task/feature/login/presentation/login_view.dart';
+import 'package:neways_task/main.dart';
 import 'controller/home_controller.dart';
 
 class HomeView extends StatefulWidget {
@@ -159,20 +163,26 @@ class _HomeViewState extends State<HomeView> {
                   )
                 ],
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.notifications,
                     color: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
-                  Icon(
-                    Icons.logout_outlined,
-                    color: Colors.white,
+                  InkWell(
+                    onTap: (){
+                      preferences.setInt('initScreen', 0);
+                      Get.offAll(const LoginView());
+                    },
+                    child: const Icon(
+                      Icons.logout_outlined,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               )
