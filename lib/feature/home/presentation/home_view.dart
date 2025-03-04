@@ -33,17 +33,20 @@ class _HomeViewState extends State<HomeView> {
             children: [
               userAppBar(),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    children: [
-                      verticalGap(context, 15),
-                      quickAction(),
-                      verticalGap(context, 3),
-                      totalLeave(),
-                      verticalGap(context, 3),
-                      newFeatureSlider(),
-                    ],
+                child: Container(
+                  color: Colors.grey.shade100,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      children: [
+                        verticalGap(context, 15),
+                        quickAction(),
+                        verticalGap(context, 3),
+                        totalLeave(),
+                        verticalGap(context, 3),
+                        newFeatureSlider(),
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -82,7 +85,7 @@ class _HomeViewState extends State<HomeView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.folder,color: AppColor.blackColor,size: TextSize.font20(context),),
+                          Icon(Icons.summarize_outlined,color: AppColor.blackColor,size: TextSize.font20(context),),
                           horizontalGap(context, 1),
                           Text('Total leave',style: TextStyle(fontSize: TextSize.font14(context),color: AppColor.blackColor,fontWeight: FontWeight.w600)),
                         ],
@@ -210,7 +213,6 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
-
 
   Widget quickAction(){
     return  Column(
@@ -400,10 +402,14 @@ class _HomeViewState extends State<HomeView> {
                   decoration: BoxDecoration(
                     color : Colors.transparent,
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/splash.png'),
+                        fit: BoxFit.cover),
                     border: Border.all(color: AppColor.baseColor),
                   ),
                 );
-              },   options: CarouselOptions(
+              },   
+              options: CarouselOptions(
               height: MediaQuery.of(context).size.height, // Adjust height accordingly
               autoPlay: true,  // Enable auto-play
               autoPlayInterval: const Duration(seconds: 3),  // Time between transitions
@@ -416,8 +422,8 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           Positioned(
-            bottom: 1,
-            left: MediaQuery.of(context).size.width * 0.3,
+            bottom: -10,
+            left: MediaQuery.of(context).size.width * 0.35,
             child: Obx(() {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
