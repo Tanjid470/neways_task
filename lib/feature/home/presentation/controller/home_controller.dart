@@ -16,4 +16,6 @@ class HomeController extends GetxController{
   void changePage(int value) {
     selectedPage.value = value;
   }
+
+  RxString checkOutTime = "9:00 AM".obs;
 }

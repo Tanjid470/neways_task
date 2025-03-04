@@ -63,7 +63,6 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       child: Row(
-        spacing: 10,
         children: [
           Expanded(
               flex: 1,
@@ -81,7 +80,8 @@ class _HomeViewState extends State<HomeView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.folder,color: AppColor.blackColor,),
+                          Icon(Icons.folder,color: AppColor.blackColor,size: TextSize.font20(context),),
+                          horizontalGap(context, 1),
                           Text('Total leave',style: TextStyle(fontSize: TextSize.font14(context),color: AppColor.blackColor,fontWeight: FontWeight.w600)),
                         ],
                       ),
@@ -95,6 +95,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
               )
           ),
+          horizontalGap(context, 2),
           Expanded(
               flex: 2,
               child: Row(
@@ -278,7 +279,7 @@ class _HomeViewState extends State<HomeView> {
                        Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
-                           Text('10:00 AM',
+                           Text('9:00 AM',
                                style: TextStyle(
                                    fontSize: TextSize.font16(context),
                                    color: AppColor.blackColor,
@@ -316,12 +317,14 @@ class _HomeViewState extends State<HomeView> {
                        Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
-                           Text('08:00 PM',
-                               style: TextStyle(
-                                   fontSize: TextSize.font12(context),
-                                   color: AppColor.greyColor,
-                                   fontWeight: FontWeight.bold)
-                           ),
+                           Obx((){
+                             return Text(homeController.checkOutTime.value,
+                                 style: TextStyle(
+                                     fontSize: TextSize.font12(context),
+                                     color: AppColor.blackColor,
+                                     fontWeight: FontWeight.bold)
+                             );
+                           }),
                            Text('Check Out',
                                style: TextStyle(
                                    fontSize: TextSize.font12(context),
@@ -339,10 +342,17 @@ class _HomeViewState extends State<HomeView> {
                  child: Column(
                    mainAxisAlignment: MainAxisAlignment.end,
                    children: [
-                     CircleAvatar(
-                       radius: 32,
-                       backgroundColor: AppColor.greyColor,
-                       child: Icon(Icons.fingerprint,size: TextSize.font30(context),color: AppColor.blackColor,),
+                     InkWell(
+                       onTap: () {
+                         DateTime now = DateTime.now();
+                         String period = now.hour >= 12 ? "PM" : "AM";
+                         homeController.checkOutTime.value = "${now.hour}:${now.minute} $period";
+                       },
+                       child: CircleAvatar(
+                         radius: 32,
+                         backgroundColor: AppColor.greyColor,
+                         child: Icon(Icons.fingerprint,size: TextSize.font30(context),color: AppColor.blackColor,),
+                       ),
                      ),
                      Text('Check Out',style: TextStyle(fontSize: TextSize.font14(context),color: AppColor.blackColor,fontWeight: FontWeight.w600),),
                    ],
