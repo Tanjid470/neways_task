@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.neways_task.app-mergeDebugResources-35:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.example.neways_task.app-mergeDebugResources-50:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "/Users/tanjid/.gradle/caches/transforms-3/2eceb939cd7fce43ca209432cbea87ac/transformed/jetified-play-services-auth-20.7.0/res/values-watch-v20/values.xml",
+                    "source": "/Users/tanjid/.gradle/caches/transforms-3/397a0c7186e5952b6db110a8cae285b6/transformed/jetified-play-services-auth-20.7.0/res/values-watch-v20/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
@@ -18,6 +18,25 @@
                         "startOffsets": "55,134,214,293,372,463,544,635",
                         "endColumns": "78,79,78,78,90,80,90,79",
                         "endOffsets": "129,209,288,367,458,539,630,710"
+                    }
+                },
+                {
+                    "source": "/Users/tanjid/.gradle/caches/transforms-3/01a5bd9abca06f024a7b4741f9aeb951/transformed/appcompat-1.1.0/res/values-watch-v20/values-watch-v20.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,214,385",
+                        "endLines": "4,7,10",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "209,380,553"
+                    },
+                    "to": {
+                        "startLines": "10,13,16",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "715,874,1045",
+                        "endLines": "12,15,18",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "869,1040,1213"
                     }
                 }
             ]
