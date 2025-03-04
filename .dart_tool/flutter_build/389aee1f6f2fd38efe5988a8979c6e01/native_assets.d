@@ -1,0 +1,1 @@
+ /Users/tanjid/StudioProjects/neways_task/.dart_tool/flutter_build/389aee1f6f2fd38efe5988a8979c6e01/native_assets.yaml: 
