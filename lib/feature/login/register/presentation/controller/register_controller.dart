@@ -1,0 +1,78 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:get/get.dart';
+import 'package:neways_task/feature/home/presentation/home_view.dart';
+import 'package:neways_task/main.dart';
+class RegisterController extends GetxController{
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+
+
+  RxBool saveButtonEnableFlag =false.obs;
+
+  void saveButtonEnable(){
+    if( emailController.text.isNotEmpty
+        && nameController.text.isNotEmpty
+        && passwordController.text.isNotEmpty
+    ){
+      saveButtonEnableFlag.value = true;
+    }
+    else{
+      saveButtonEnableFlag.value = false;
+    }
+  }
+
+  Future<bool> signUpUser(String email, String password, String name, BuildContext context) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await userCredential.user?.updateDisplayName(name);
+      addUserDetails(
+        nameController.text.trim(),
+        dobController.text.trim(),
+        genderController.text.trim(),
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
+      SmartDialog.dismiss();
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Successful')));
+      preferences.setInt('initScreen', 1);
+      Get.offAll(const HomeView());
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Password Provided is too weak')));
+      } else if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email Provided already Exists')));
+      }
+      SmartDialog.dismiss();
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+      SmartDialog.dismiss();
+    }
+    return false;
+  }
+
+  Future addUserDetails(String name,String gender,String dob,String email,String password) async{
+    await FirebaseFirestore.instance.collection('register').add({
+      'name':name,
+      'gender':gender,
+      'dob':dob,
+      'email':email,
+      'password':password
+    });
+  }
+
+}
