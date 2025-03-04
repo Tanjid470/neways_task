@@ -1,18 +1,40 @@
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:neways_task/feature/home/presentation/home_view.dart';
 import 'package:neways_task/main.dart';
+import 'package:permission_handler/permission_handler.dart';
 class RegisterController extends GetxController{
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController genderController = TextEditingController();
+  TextEditingController positionController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  String? imageUrl;
+
+  Rx<File?> selectedImage = Rx<File?>(null);
+
+  Future<void> pickImage() async {
+    var status = await Permission.storage.request();
+    if (status.isGranted) {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        selectedImage.value = File(pickedFile.path);
+      }
+    } else {
+      Get.snackbar("Permission Denied", "Gallery access is required to pick an image.");
+    }
+  }
 
 
 
@@ -43,6 +65,8 @@ class RegisterController extends GetxController{
         dobController.text.trim(),
         emailController.text.trim(),
         passwordController.text.trim(),
+        positionController.text.trim(),
+        imageUrl ?? ''
       );
       SmartDialog.dismiss();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Successful')));
@@ -66,13 +90,15 @@ class RegisterController extends GetxController{
     return false;
   }
 
-  Future addUserDetails(String name,String gender,String dob,String email,String password) async{
+  Future addUserDetails(String name,String gender,String dob,String email,String password,String position,String image) async{
     await FirebaseFirestore.instance.collection('register').add({
       'name':name,
       'gender':gender,
       'dob':dob,
       'email':email,
-      'password':password
+      'password':password,
+      'position':position,
+      'image':image
     });
   }
 

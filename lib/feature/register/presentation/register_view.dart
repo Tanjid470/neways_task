@@ -81,14 +81,28 @@ class _RegisterViewState extends State<RegisterView> {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          verticalGap(context, 2),
+          Obx(() => GestureDetector(
+            onTap: registerController.pickImage,
+            child: CircleAvatar(
+              radius: 60,
+              backgroundColor: AppColor.baseColorShadow,
+              backgroundImage: registerController.selectedImage.value != null
+                  ? FileImage(registerController.selectedImage.value!)
+                  : null,
+              child: registerController.selectedImage.value == null
+                  ? Icon(Icons.add_a_photo_outlined, color: Colors.black, size: 30)
+                  : null,
+            ),
+          )),
           verticalGap(context, 2),
           CustomTextField(
             controller: registerController.nameController,
             hintText: 'Enter your name',
             icon: Icons.person,
-            fieldName: 'name',
+            fieldName: 'Name',
             isRequired: true,
             saveButtonEnable: registerController.saveButtonEnable,
           ),
@@ -96,7 +110,7 @@ class _RegisterViewState extends State<RegisterView> {
             controller: registerController.dobController,
             hintText: 'Date of birth',
             icon: Icons.date_range,
-            fieldName: 'date',
+            fieldName: 'Date',
             isRequired: false,
             saveButtonEnable: registerController.saveButtonEnable,
           ),
@@ -104,15 +118,23 @@ class _RegisterViewState extends State<RegisterView> {
             controller: registerController.genderController,
             hintText: 'gender',
             icon: Icons.accessibility,
-            fieldName: 'gender',
+            fieldName: 'Gender',
             isRequired: false,
+            saveButtonEnable: registerController.saveButtonEnable,
+          ),
+          CustomTextField(
+            controller: registerController.positionController,
+            hintText: 'position',
+            icon: Icons.motion_photos_auto_sharp,
+            fieldName: 'Position',
+            isRequired: true,
             saveButtonEnable: registerController.saveButtonEnable,
           ),
           CustomTextField(
             controller: registerController.emailController,
             hintText: 'Enter your email',
             icon: Icons.email_outlined,
-            fieldName: 'email',
+            fieldName: 'Email',
             isRequired: true,
             saveButtonEnable: registerController.saveButtonEnable,
           ),
@@ -120,7 +142,7 @@ class _RegisterViewState extends State<RegisterView> {
             controller: registerController.passwordController,
             hintText: 'password',
             icon: Icons.code,
-            fieldName: 'password',
+            fieldName: 'Password',
             isRequired: true,
             saveButtonEnable: registerController.saveButtonEnable,
           ),

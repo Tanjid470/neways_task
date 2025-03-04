@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:neways_task/config/font_const.dart';
 import 'package:neways_task/config/responsive_scale.dart';
 import 'package:neways_task/const/app_colors.dart';
+import 'package:neways_task/feature/home/data/user_info_model.dart';
 import 'package:neways_task/feature/home/presentation/widget/leave_status_card.dart';
 import 'package:neways_task/feature/home/presentation/widget/quick_action_card.dart';
 import 'package:neways_task/feature/home/presentation/widget/widget_background_color.dart';
@@ -113,7 +114,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget userAppBar(){
+  Widget userAppBar() {
     return Container(
       height: ResponsiveScale.of(context).hp(24),
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -133,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
               Row(
                 children: [
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       String? email = preferences.getString('email');
                       Get.to(UserInfoView(email: email ?? 'test@gmail.com'));
                     },
@@ -141,33 +142,45 @@ class _HomeViewState extends State<HomeView> {
                       height: 65,
                       width: 65,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3'),
-                            fit: BoxFit.cover,
-                          ),
-                          border: Border.all(color: AppColor.white,width: 1.5)
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3'),
+                          fit: BoxFit.cover,
+                        ),
+                        border: Border.all(color: AppColor.white, width: 1.5),
                       ),
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Tanjid',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                      Text('HR manager',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white)),
-                    ],
-                  )
+                  FutureBuilder<UserModel?>(
+                    future:homeController.fetchUserByEmail(preferences.getString('email') ?? ''),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator(color: Colors.white);
+                      }
+                      if (!snapshot.hasData || snapshot.data == null) {
+                        return Text("User not found", style: TextStyle(color: Colors.white));
+                      }
+                      UserModel user = snapshot.data!;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(user.name, // Display fetched name
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
+                          Text(user.position, // Display fetched position
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white)),
+                        ],
+                      );
+                    },
+                  ),
                 ],
               ),
               Row(
@@ -178,11 +191,9 @@ class _HomeViewState extends State<HomeView> {
                     Icons.notifications,
                     color: Colors.white,
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
+                  const SizedBox(width: 20),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       preferences.setInt('initScreen', 0);
                       Get.offAll(const LoginView());
                     },
@@ -192,13 +203,14 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ],
       ),
     );
   }
+
 
   Widget quickAction(){
     return  Column(

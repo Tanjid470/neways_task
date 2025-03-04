@@ -43,6 +43,8 @@ class UserInfoView extends StatelessWidget {
                 UserInfoRow(title: 'Email', value: user['email']),
                 UserInfoRow(title: 'Gender', value: user['gender']),
                 UserInfoRow(title: 'Date of birth', value: user['dob']),
+                UserInfoRow(title: 'Image', value: user['image']),
+                UserInfoRow(title: 'Position', value: user['position']),
               ],
             ),
           );
