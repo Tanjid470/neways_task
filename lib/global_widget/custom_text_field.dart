@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:neways_task/config/font_const.dart';
 import 'package:neways_task/const/app_colors.dart';
 
