@@ -48,7 +48,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              ' Neway',
+                              ' Neways',
                               style: TextStyle(
                                   fontSize: TextSize.font24(context),
                                   color: AppColor.baseColor,
@@ -57,10 +57,7 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ],
                         ),
-                        Text('Register',
-                            style: TextStyle(
-                                fontSize: TextSize.font24(context),
-                                fontFamily: 'HindSiliguri')),
+
                       ],
                     ),
                   ),
