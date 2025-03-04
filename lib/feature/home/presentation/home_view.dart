@@ -10,6 +10,7 @@ import 'package:neways_task/feature/home/presentation/widget/leave_status_card.d
 import 'package:neways_task/feature/home/presentation/widget/quick_action_card.dart';
 import 'package:neways_task/feature/home/presentation/widget/widget_background_color.dart';
 import 'package:neways_task/feature/login/presentation/login_view.dart';
+import 'package:neways_task/feature/user_profile_info/presentation/user_info_view.dart';
 import 'package:neways_task/main.dart';
 import 'controller/home_controller.dart';
 
@@ -131,17 +132,23 @@ class _HomeViewState extends State<HomeView> {
             children: [
               Row(
                 children: [
-                  Container(
-                    height: 65,
-                    width: 65,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3'),
-                          fit: BoxFit.cover,
-                        ),
-                        border: Border.all(color: AppColor.white,width: 1.5)
+                  InkWell(
+                    onTap: (){
+                      String? email = preferences.getString('email');
+                      Get.to(UserInfoView(email: email ?? 'test@gmail.com'));
+                    },
+                    child: Container(
+                      height: 65,
+                      width: 65,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(
+                                'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3'),
+                            fit: BoxFit.cover,
+                          ),
+                          border: Border.all(color: AppColor.white,width: 1.5)
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
