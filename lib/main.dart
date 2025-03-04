@@ -38,10 +38,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Neway',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white), // Modify or remove this if needed
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white, // Set your preferred background color here
       ),
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       home: const HomeView(),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
