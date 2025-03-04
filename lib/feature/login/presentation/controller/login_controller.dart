@@ -47,6 +47,7 @@ class LoginController extends GetxController{
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
       SmartDialog.dismiss();
       preferences.setInt('initScreen', 1);
+      preferences.setString('email', emailController.text);
       Get.offAll(const HomeView());
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('You are Logged in')));
     } on FirebaseAuthException catch (exception) {
