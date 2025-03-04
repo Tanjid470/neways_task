@@ -24,9 +24,9 @@ class LeaveStatusCard extends StatelessWidget {
           Icon(icon,color: AppColor.blackColor,),
           Text(title,style: TextStyle(fontSize: TextSize.font14(context),color: AppColor.baseColor,fontWeight: FontWeight.w800)),
           CircleAvatar(
-              radius: 20,
+              radius: TextSize.font18(context),
               backgroundColor: AppColor.baseColorShadow,
-              child:Text(days,style: TextStyle(fontSize: TextSize.font28(context),fontWeight: FontWeight.bold,color: AppColor.blackColor),)
+              child:Text(days,style: TextStyle(fontSize: TextSize.font16(context),fontWeight: FontWeight.bold,color: AppColor.blackColor),)
           )
         ]
     );
