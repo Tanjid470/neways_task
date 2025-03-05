@@ -8,6 +8,7 @@ import 'package:neways_task/config/responsive_scale.dart';
 import 'package:neways_task/const/app_colors.dart';
 import 'package:neways_task/feature/home/data/attendance_data_model.dart';
 import 'package:neways_task/feature/home/data/user_info_model.dart';
+import 'package:neways_task/feature/home/presentation/widget/attendance_info_widget.dart';
 import 'package:neways_task/feature/home/presentation/widget/leave_status_card.dart';
 import 'package:neways_task/feature/home/presentation/widget/quick_action_card.dart';
 import 'package:neways_task/feature/home/presentation/widget/widget_background_color.dart';
@@ -51,6 +52,7 @@ class _HomeViewState extends State<HomeView> {
                           newFeatureSlider(),
                           verticalGap(context, 3),
                           attendanceCalendar(),
+                          attendanceStatusView(),
                           verticalGap(context, 3),
                         ],
                       ),
@@ -525,8 +527,8 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget attendanceCalendar(){
-    return  Obx(() {
+  Widget attendanceCalendar() {
+    return Obx(() {
       if (homeController.isAttendanceLoading.value) {
         return Center(child: CircularProgressIndicator());
       }
@@ -536,13 +538,13 @@ class _HomeViewState extends State<HomeView> {
           firstDay: DateTime(2020, 1, 1),
           lastDay: DateTime(2100, 12, 31),
           focusedDay: DateTime.now(),
+          startingDayOfWeek: StartingDayOfWeek.saturday,
+          rangeSelectionMode: RangeSelectionMode.toggledOn,
           calendarFormat: CalendarFormat.month,
           selectedDayPredicate: (day) {
-            return homeController.attendanceList
-                .any((attendance) {
+            return homeController.attendanceList.any((attendance) {
               DateTime attendanceDate =
-              DateFormat('dd/MM/yyyy')
-                  .parse(attendance.date);
+                  DateFormat('dd/MM/yyyy').parse(attendance.date);
               return attendanceDate.day == day.day &&
                   attendanceDate.month == day.month &&
                   attendanceDate.year == day.year;
@@ -550,39 +552,61 @@ class _HomeViewState extends State<HomeView> {
           },
           calendarBuilders: CalendarBuilders(
             markerBuilder: (context, day, events) {
-              final matchingAttendance = homeController.attendanceList.firstWhere((attendance) {
-                DateTime attendanceDate = DateFormat('dd/MM/yyyy').parse(attendance.date);
-                return attendanceDate.day == day.day &&
-                    attendanceDate.month == day.month &&
-                    attendanceDate.year == day.year;
-              },
-                orElse: () => AttendanceDataModel(color: 'red', date: '', status: ''), // Provide a default
+              final matchingAttendance =
+                  homeController.attendanceList.firstWhere(
+                (attendance) {
+                  DateTime attendanceDate =
+                      DateFormat('dd/MM/yyyy').parse(attendance.date);
+                  return attendanceDate.day == day.day &&
+                      attendanceDate.month == day.month &&
+                      attendanceDate.year == day.year;
+                },
+                orElse: () => AttendanceDataModel(
+                    color: 'red', date: '', status: ''), // Provide a default
               );
 
               Color markerColor;
               try {
-                markerColor = Color(int.parse('0xFF${matchingAttendance.color.replaceAll('#', '')}')).withOpacity(.25);
+                markerColor = Color(int.parse(
+                        '0xFF${matchingAttendance.color.replaceAll('#', '')}'))
+                    .withOpacity(.25);
               } catch (e) {
                 markerColor = Colors.transparent;
               }
 
-              return Container(
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: markerColor,
-                    shape: BoxShape.rectangle,
-                  ),
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                          matchingAttendance.status,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: TextSize.font10(context),
+              return Stack(
+                children: [
+                  Container(
+                      margin: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: markerColor,
+                        shape: BoxShape.rectangle,
+                      ),
+                      child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                              matchingAttendance.status,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: TextSize.font10(context),
+                              )
                           )
                       )
-                  )
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 25,
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: markerColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
               );
             },
             todayBuilder: (context, day, focusedDay) {
@@ -590,14 +614,14 @@ class _HomeViewState extends State<HomeView> {
                 child: Container(
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    color: Colors.green.shade400,
+                    color: AppColor.baseColorShadow,
                     shape: BoxShape.circle,
                   ),
                   child: Text(
                     day.day.toString(),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: TextSize.font20(context),// Always black
+                      fontSize: TextSize.font20(context), // Always black
                       fontWeight: FontWeight.bold, // Always bold
                     ),
                   ),
@@ -626,6 +650,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
               );
             },
+
           ),
           weekendDays: [DateTime.friday],
           headerVisible: true,
@@ -635,7 +660,6 @@ class _HomeViewState extends State<HomeView> {
           sixWeekMonthsEnforced: false,
           shouldFillViewport: false,
           weekNumbersVisible: false,
-
           onDaySelected: (selectedDay, focusedDay) {
             print('Selected Day: ${selectedDay.toIso8601String()}');
           },
@@ -667,5 +691,23 @@ class _HomeViewState extends State<HomeView> {
         ),
       );
     });
+  }
+
+  Widget attendanceStatusView(){
+    return
+      Obx((){
+        return Container(
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AttendanceInfoWidget(color: Colors.red, title: 'Absent', days: homeController.statusCounts['absent'] ?? 0),
+              AttendanceInfoWidget(color: Colors.yellow, title: 'Late', days: homeController.statusCounts['late'] ?? 0),
+              AttendanceInfoWidget(color: Colors.green, title: 'Leave', days: homeController.statusCounts['leave'] ?? 0),
+            ],
+          ),
+        );
+      });
   }
 }
