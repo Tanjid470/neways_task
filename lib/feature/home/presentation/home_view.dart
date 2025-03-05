@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:neways_task/config/font_const.dart';
 import 'package:neways_task/config/responsive_scale.dart';
 import 'package:neways_task/const/app_colors.dart';
+import 'package:neways_task/feature/home/data/attendance_data_model.dart';
 import 'package:neways_task/feature/home/data/user_info_model.dart';
 import 'package:neways_task/feature/home/presentation/widget/leave_status_card.dart';
 import 'package:neways_task/feature/home/presentation/widget/quick_action_card.dart';
@@ -39,73 +40,20 @@ class _HomeViewState extends State<HomeView> {
                   color: Colors.grey.shade100,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      children: [
-                        verticalGap(context, 15),
-                        // quickAction(),
-                        // verticalGap(context, 3),
-                        // totalLeave(),
-                        // verticalGap(context, 3),
-                        // newFeatureSlider(),
-                        Obx(() {
-                          if (homeController.isAttendanceLoading.value) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          return Container(
-                            color: Colors.white,
-                            child: TableCalendar(
-                              firstDay: DateTime(2020, 1, 1),
-                              lastDay: DateTime(2100, 12, 31),
-                              focusedDay: DateTime.now(),
-                              calendarFormat: CalendarFormat.month,
-                              selectedDayPredicate: (day) {
-                                return homeController.attendanceList
-                                    .any((attendance) {
-                                  DateTime attendanceDate =
-                                      DateFormat('dd/MM/yyyy')
-                                          .parse(attendance.date);
-                                  return attendanceDate.day == day.day &&
-                                      attendanceDate.month == day.month &&
-                                      attendanceDate.year == day.year;
-                                });
-                              },
-                              weekendDays: [DateTime.friday],
-                              headerVisible: true,
-                              daysOfWeekVisible: true,
-                              pageJumpingEnabled: false,
-                              pageAnimationEnabled: true,
-                              sixWeekMonthsEnforced: false,
-                              shouldFillViewport: false,
-                              weekNumbersVisible: false,
-
-                              onDaySelected: (selectedDay, focusedDay) {
-                                print('Selected Day: ${selectedDay.toIso8601String()}');
-                              },
-                              headerStyle: HeaderStyle(
-                                formatButtonVisible: false,
-                              ),
-                              calendarStyle: CalendarStyle(
-                                todayDecoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  shape: BoxShape.circle,
-                                ),
-                                selectedDecoration: BoxDecoration(
-                                  color: Colors.green,
-                                  shape: BoxShape.circle,
-                                ),
-                                markerDecoration: BoxDecoration(
-                                  color: Colors.red, // Default marker decoration
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              daysOfWeekStyle: DaysOfWeekStyle(
-                                weekendStyle: TextStyle(color: Colors.red),
-                              ),
-
-                            ),
-                          );
-                        }),
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          verticalGap(context, 15),
+                          quickAction(),
+                          verticalGap(context, 3),
+                          totalLeave(),
+                          verticalGap(context, 3),
+                          newFeatureSlider(),
+                          verticalGap(context, 3),
+                          attendanceCalendar(),
+                          verticalGap(context, 3),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -575,5 +523,149 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
     );
+  }
+
+  Widget attendanceCalendar(){
+    return  Obx(() {
+      if (homeController.isAttendanceLoading.value) {
+        return Center(child: CircularProgressIndicator());
+      }
+      return Container(
+        color: Colors.white,
+        child: TableCalendar(
+          firstDay: DateTime(2020, 1, 1),
+          lastDay: DateTime(2100, 12, 31),
+          focusedDay: DateTime.now(),
+          calendarFormat: CalendarFormat.month,
+          selectedDayPredicate: (day) {
+            return homeController.attendanceList
+                .any((attendance) {
+              DateTime attendanceDate =
+              DateFormat('dd/MM/yyyy')
+                  .parse(attendance.date);
+              return attendanceDate.day == day.day &&
+                  attendanceDate.month == day.month &&
+                  attendanceDate.year == day.year;
+            });
+          },
+          calendarBuilders: CalendarBuilders(
+            markerBuilder: (context, day, events) {
+              final matchingAttendance = homeController.attendanceList.firstWhere((attendance) {
+                DateTime attendanceDate = DateFormat('dd/MM/yyyy').parse(attendance.date);
+                return attendanceDate.day == day.day &&
+                    attendanceDate.month == day.month &&
+                    attendanceDate.year == day.year;
+              },
+                orElse: () => AttendanceDataModel(color: 'red', date: '', status: ''), // Provide a default
+              );
+
+              Color markerColor;
+              try {
+                markerColor = Color(int.parse('0xFF${matchingAttendance.color.replaceAll('#', '')}')).withOpacity(.25);
+              } catch (e) {
+                markerColor = Colors.transparent;
+              }
+
+              return Container(
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: markerColor,
+                    shape: BoxShape.rectangle,
+                  ),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                          matchingAttendance.status,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: TextSize.font10(context),
+                          )
+                      )
+                  )
+              );
+            },
+            todayBuilder: (context, day, focusedDay) {
+              return Center(
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade400,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    day.day.toString(),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: TextSize.font20(context),// Always black
+                      fontWeight: FontWeight.bold, // Always bold
+                    ),
+                  ),
+                ),
+              );
+            },
+            defaultBuilder: (context, day, focusedDay) {
+              return Center(
+                child: Text(
+                  day.day.toString(),
+                  style: TextStyle(
+                    color: Colors.black, // Always black
+                    fontWeight: FontWeight.bold, // Always bold
+                  ),
+                ),
+              );
+            },
+            selectedBuilder: (context, day, focusedDay) {
+              return Center(
+                child: Text(
+                  day.day.toString(),
+                  style: TextStyle(
+                    color: Colors.black, // Always black
+                    fontWeight: FontWeight.bold, // Always bold
+                  ),
+                ),
+              );
+            },
+          ),
+          weekendDays: [DateTime.friday],
+          headerVisible: true,
+          daysOfWeekVisible: true,
+          pageJumpingEnabled: false,
+          pageAnimationEnabled: true,
+          sixWeekMonthsEnforced: false,
+          shouldFillViewport: false,
+          weekNumbersVisible: false,
+
+          onDaySelected: (selectedDay, focusedDay) {
+            print('Selected Day: ${selectedDay.toIso8601String()}');
+          },
+          headerStyle: HeaderStyle(
+            formatButtonVisible: false,
+          ),
+          calendarStyle: CalendarStyle(
+            todayDecoration: BoxDecoration(
+              color: Colors.blue,
+              shape: BoxShape.circle,
+            ),
+            selectedDecoration: BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+            markerDecoration: BoxDecoration(
+              color: Colors.red, // Default marker decoration
+              shape: BoxShape.circle,
+            ),
+            holidayDecoration: BoxDecoration(
+              color: Colors.red, // Default marker decoration
+              shape: BoxShape.circle,
+            ),
+          ),
+          daysOfWeekStyle: DaysOfWeekStyle(
+            weekendStyle: TextStyle(color: Colors.red),
+          ),
+
+        ),
+      );
+    });
   }
 }
