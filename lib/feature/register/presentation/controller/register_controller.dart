@@ -1,7 +1,9 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -19,19 +21,24 @@ class RegisterController extends GetxController{
   TextEditingController dobController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  String? imageUrl;
-
   Rx<File?> selectedImage = Rx<File?>(null);
 
   Future<void> pickImage() async {
-    var status = await Permission.storage.request();
+    PermissionStatus status;
+    if (Platform.isAndroid && (await DeviceInfoPlugin().androidInfo).version.sdkInt >= 33) {
+      status = await Permission.photos.request();
+    }
+    else {
+      status = await Permission.storage.request();
+    }
     if (status.isGranted) {
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         selectedImage.value = File(pickedFile.path);
       }
-    } else {
+    }
+    else {
       Get.snackbar("Permission Denied", "Gallery access is required to pick an image.");
     }
   }
@@ -66,7 +73,7 @@ class RegisterController extends GetxController{
         emailController.text.trim(),
         passwordController.text.trim(),
         positionController.text.trim(),
-        imageUrl ?? ''
+        convertImageToBase64()
       );
       SmartDialog.dismiss();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Successful')));
@@ -101,5 +108,15 @@ class RegisterController extends GetxController{
       'image':image
     });
   }
+
+  String convertImageToBase64() {
+    if (selectedImage.value != null) {
+      File imageFile = selectedImage.value!;
+      List<int> imageBytes = imageFile.readAsBytesSync();
+      return base64Encode(imageBytes);
+    }
+    return "";
+  }
+
 
 }
