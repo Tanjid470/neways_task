@@ -266,6 +266,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///Users/tanjid/.pub-cache/hosted/pub.dev/intl-0.20.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "leak_tracker",
       "rootUri": "file:///Users/tanjid/.pub-cache/hosted/pub.dev/leak_tracker-10.0.7",
       "packageUri": "lib/",
@@ -428,6 +434,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "simple_gesture_detector",
+      "rootUri": "file:///Users/tanjid/.pub-cache/hosted/pub.dev/simple_gesture_detector-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/tanjid/fvm/versions/3.27.3/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -456,6 +468,12 @@
       "rootUri": "file:///Users/tanjid/.pub-cache/hosted/pub.dev/string_scanner-1.3.0",
       "packageUri": "lib/",
       "languageVersion": "3.1"
+    },
+    {
+      "name": "table_calendar",
+      "rootUri": "file:///Users/tanjid/.pub-cache/hosted/pub.dev/table_calendar-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "term_glyph",
@@ -518,7 +536,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-03-05T03:31:47.451463Z",
+  "generated": "2025-03-05T05:41:17.791337Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
   "flutterRoot": "file:///Users/tanjid/fvm/versions/3.27.3",

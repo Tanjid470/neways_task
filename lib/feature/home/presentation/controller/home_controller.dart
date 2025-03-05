@@ -1,10 +1,14 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:neways_task/feature/home/data/attendance_data_model.dart';
 import 'package:neways_task/feature/home/data/user_info_model.dart';
 import 'package:neways_task/feature/home/domain/quick_action_card_model.dart';
 import 'package:neways_task/main.dart';
+
+
 
 class HomeController extends GetxController{
   List<QuickActionCard> quickActionCardList = [
@@ -18,9 +22,38 @@ class HomeController extends GetxController{
   void onInit() {
     String? email = preferences.getString('email');
     fetchUserByEmail(email!);
+    fetchAllAttendance();
     super.onInit();
   }
 
+  List<AttendanceDataModel> attendanceList = [];
+  RxBool isAttendanceLoading = true.obs;
+
+  Future<void> fetchAllAttendance() async {
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('attendance')
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        List<AttendanceDataModel> fetchedAttendance = snapshot.docs
+            .map((doc) => AttendanceDataModel.fromMap(doc.data()))
+            .toList();
+        attendanceList.assignAll(fetchedAttendance);
+        isAttendanceLoading.value = false;
+      } else {
+        attendanceList.clear();
+        isAttendanceLoading.value = false;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching attendance data: $e');
+      }
+      isAttendanceLoading.value = false;
+      attendanceList.clear();
+    }
+  }
+  Color selectedDayColor = Colors.green;
 
   var selectedPage = 0.obs;
   void changePage(int value) {
