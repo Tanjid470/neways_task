@@ -28,6 +28,8 @@ class HomeController extends GetxController{
 
   List<AttendanceDataModel> attendanceList = [];
   RxBool isAttendanceLoading = true.obs;
+  RxMap<String, int> statusCounts = {'absent': 0, 'late': 0, 'leave': 0}.obs;
+
 
   Future<void> fetchAllAttendance() async {
     try {
@@ -40,6 +42,12 @@ class HomeController extends GetxController{
             .map((doc) => AttendanceDataModel.fromMap(doc.data()))
             .toList();
         attendanceList.assignAll(fetchedAttendance);
+        for (var record in attendanceList) {
+          String? status = record.status;
+          if (statusCounts.containsKey(status)) {
+            statusCounts[status] = (statusCounts[status] ?? 0) + 1;
+          }
+        }
         isAttendanceLoading.value = false;
       } else {
         attendanceList.clear();
@@ -53,6 +61,7 @@ class HomeController extends GetxController{
       attendanceList.clear();
     }
   }
+
 
 
   var selectedPage = 0.obs;
