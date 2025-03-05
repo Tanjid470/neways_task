@@ -16,6 +16,13 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   RegisterController registerController = Get.put(RegisterController());
 
+
+
+  @override
+  void dispose() {
+    Get.delete<RegisterController>();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

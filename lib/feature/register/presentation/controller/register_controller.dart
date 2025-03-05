@@ -13,7 +13,11 @@ import 'package:neways_task/feature/home/presentation/home_view.dart';
 import 'package:neways_task/main.dart';
 import 'package:permission_handler/permission_handler.dart';
 class RegisterController extends GetxController{
-
+  @override
+  void onClose() {
+    super.onClose();
+    print("Controller disposed");
+  }
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController genderController = TextEditingController();
@@ -79,6 +83,7 @@ class RegisterController extends GetxController{
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Successful')));
       preferences.setInt('initScreen', 1);
       preferences.setString('email', emailController.text);
+
       Get.offAll(const HomeView());
       return true;
     } on FirebaseAuthException catch (e) {
