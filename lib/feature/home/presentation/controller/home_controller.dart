@@ -53,7 +53,7 @@ class HomeController extends GetxController{
       attendanceList.clear();
     }
   }
-  Color selectedDayColor = Colors.green;
+
 
   var selectedPage = 0.obs;
   void changePage(int value) {
