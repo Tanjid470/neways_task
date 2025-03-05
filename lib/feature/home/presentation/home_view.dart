@@ -130,7 +130,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       child: Column(
         children: [
-          SizedBox(height: ResponsiveScale.of(context).hp(4)),
+          SizedBox(height: ResponsiveScale.of(context).hp(5)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -177,7 +177,8 @@ class _HomeViewState extends State<HomeView> {
                                 fit: BoxFit.cover,
                               ),
                             );
-                          } else {
+                          }
+                          else {
                             return ClipOval(
                               child: Image.network(
                                 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3',
@@ -222,7 +223,6 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ],
               ),
-
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
