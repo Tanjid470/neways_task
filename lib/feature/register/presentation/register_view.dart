@@ -83,15 +83,23 @@ class _RegisterViewState extends State<RegisterView> {
           verticalGap(context, 2),
           Obx(() => GestureDetector(
             onTap: registerController.pickImage,
-            child: CircleAvatar(
-              radius: 60,
-              backgroundColor: AppColor.baseColorShadow,
-              backgroundImage: registerController.selectedImage.value != null
-                  ? FileImage(registerController.selectedImage.value!)
-                  : null,
-              child: registerController.selectedImage.value == null
-                  ? Icon(Icons.add_a_photo_outlined, color: Colors.black, size: 30)
-                  : null,
+            child: Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColor.baseColor, width: 2),
+              ),
+              child: CircleAvatar(
+                radius: 60,
+                backgroundColor: AppColor.baseColorShadow,
+                backgroundImage: registerController.selectedImage.value != null
+                    ? FileImage(registerController.selectedImage.value!)
+                    : null,
+                child: registerController.selectedImage.value == null
+                    ? Icon(Icons.add_a_photo_outlined, color: Colors.black, size: 30)
+                    : null,
+              ),
             ),
           )),
           verticalGap(context, 2),
