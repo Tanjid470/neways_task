@@ -44,6 +44,7 @@ dependencies:
   flutter_smart_dialog: ^4.9.8+7
   image_picker: ^1.1.2
   permission_handler: ^11.4.0
+  device_info_plus: ^11.3.0
 
 dev_dependencies:
   flutter_test:

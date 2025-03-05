@@ -85,6 +85,7 @@ INJECTED from /Users/tanjid/StudioProjects/neways_task/android/app/src/debug/And
 INJECTED from /Users/tanjid/StudioProjects/neways_task/android/app/src/debug/AndroidManifest.xml:1:1-7:12
 INJECTED from /Users/tanjid/StudioProjects/neways_task/android/app/src/debug/AndroidManifest.xml:1:1-7:12
 MERGED from [:cloud_firestore] /Users/tanjid/StudioProjects/neways_task/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:device_info_plus] /Users/tanjid/StudioProjects/neways_task/build/device_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:firebase_auth] /Users/tanjid/StudioProjects/neways_task/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_core] /Users/tanjid/StudioProjects/neways_task/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [:image_picker_android] /Users/tanjid/StudioProjects/neways_task/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-34:12
@@ -242,6 +243,8 @@ INJECTED from /Users/tanjid/StudioProjects/neways_task/android/app/src/debug/And
 INJECTED from /Users/tanjid/StudioProjects/neways_task/android/app/src/debug/AndroidManifest.xml
 MERGED from [:cloud_firestore] /Users/tanjid/StudioProjects/neways_task/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:cloud_firestore] /Users/tanjid/StudioProjects/neways_task/build/cloud_firestore/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:device_info_plus] /Users/tanjid/StudioProjects/neways_task/build/device_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:device_info_plus] /Users/tanjid/StudioProjects/neways_task/build/device_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_auth] /Users/tanjid/StudioProjects/neways_task/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_auth] /Users/tanjid/StudioProjects/neways_task/build/firebase_auth/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/tanjid/StudioProjects/neways_task/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
