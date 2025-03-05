@@ -1,5 +1,5 @@
-import 'dart:developer';
-
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -146,18 +146,54 @@ class _HomeViewState extends State<HomeView> {
                       width: 65,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3'),
-                          fit: BoxFit.cover,
-                        ),
                         border: Border.all(color: AppColor.white, width: 1.5),
+                      ),
+                      child: FutureBuilder<UserModel?>(
+                        future: homeController.fetchUserByEmail(preferences.getString('email') ?? ''),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircularProgressIndicator(color: Colors.white); // Placeholder
+                          }
+                          if (!snapshot.hasData || snapshot.data == null) {
+                            return ClipOval(
+                              child: Image.network(
+                                'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3',
+                                width: 65,
+                                height: 65,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          }
+                          UserModel user = snapshot.data!;
+
+                          String base64Image = user.image;
+                          if (base64Image.isNotEmpty) {
+                            Uint8List bytes = base64Decode(base64Image);
+                            return ClipOval(
+                              child: Image.memory(
+                                bytes,
+                                width: 65,
+                                height: 65,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          } else {
+                            return ClipOval(
+                              child: Image.network(
+                                'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3',
+                                width: 65,
+                                height: 65,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),
                   const SizedBox(width: 10),
                   FutureBuilder<UserModel?>(
-                    future:homeController.fetchUserByEmail(preferences.getString('email') ?? ''),
+                    future: homeController.fetchUserByEmail(preferences.getString('email') ?? ''),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CircularProgressIndicator(color: Colors.white);
@@ -186,6 +222,8 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ],
               ),
+
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
