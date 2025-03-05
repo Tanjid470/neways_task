@@ -75,9 +75,11 @@ class UserInfoRow extends StatelessWidget {
             "$title: ",
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
           ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.baseColor),
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColor.baseColor),
+            ),
           ),
         ],
       ),
